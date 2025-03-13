@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, Form, Input, Button, App } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface LoginForm {
   username: string;
@@ -13,6 +14,7 @@ interface LoginForm {
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const { message } = App.useApp();
+  const router = useRouter();
 
   const onFinish = async (values: LoginForm) => {
     setLoading(true);
@@ -32,7 +34,7 @@ export default function LoginPage() {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("userInfo", JSON.stringify(result.data.userInfo));
       message.success(result.message);
-      // TODO: 跳转到主页
+      router.push("/");
     } catch (error) {
       message.error(
         error instanceof Error ? error.message : "登录失败，请重试"
